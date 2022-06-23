@@ -1,0 +1,23 @@
+{
+  "name": "url-shortener-graphql-api",
+  "version": "1.0.0",
+  "description": "A GraphQL based URL shortener API made with typescript and express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umtdemr/Url-Shortener-GraphQL-API.git"
+  },
+  "keywords": [],
+  "author": {
+    "name": "ümit demir",
+    "url": "https://umitde.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/umtdemr/Url-Shortener-GraphQL-API/issues"
+  },
+  "homepage": "https://github.com/umtdemr/Url-Shortener-GraphQL-API#readme"
+}
