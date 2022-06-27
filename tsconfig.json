@@ -1,11 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "lib": [
+      "ES2018", "ESNext.AsyncIterable"
+    ],
+    "target": "ES2018",
     "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "dist"
-  }
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "./src/**/*.tsx",
+    "./src/**/*.ts"
+  ]
 }
