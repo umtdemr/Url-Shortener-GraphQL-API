@@ -15,5 +15,6 @@ A GraphQL based URL shortener API made with typescript and express
 
 - [ ] Create algorithmic flow diagram first.
 - [x] Add apollo graphql 
+- [ ] Write an util function for generating unique ids 
 - [ ] Add prisma
 
