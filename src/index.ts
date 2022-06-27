@@ -1,19 +1,29 @@
 import 'reflect-metadata'
 import express from 'express';
+import { ApolloServer } from 'apollo-server-express'
+import { buildSchema } from 'type-graphql';
+import { HelloResolver } from './resolvers/hello';
+
 
 
 async function bootstrap() {
   const app = express()
 
-  app.use(express.json())
-
-
-  app.get('/', (req, res) => {
-    res.json({message: 'started'})
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [HelloResolver],
+      validate: false
+    }),
+    context: ({ req, res }) => ({
+      req,
+      res
+    }),
   })
 
+  await apolloServer.start()
+  apolloServer.applyMiddleware({ app });
 
-  app.listen(3000, () => console.log('server is running at 3000'))
+  app.listen(4000, () => console.log('graphql is running at 4000'))
 }
 
 bootstrap()
