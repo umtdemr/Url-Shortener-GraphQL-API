@@ -1,18 +1,15 @@
 import 'reflect-metadata'
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express'
-import { buildSchema } from 'type-graphql';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+import { createSchema } from './utils/createSchema';
 
 
 async function bootstrap() {
   const app = express()
 
   const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [__dirname + "/resolvers/*.ts"],
-      validate: false
-    }),
+    schema: await createSchema(),
     context: ({ req, res }) => ({
       req,
       res
