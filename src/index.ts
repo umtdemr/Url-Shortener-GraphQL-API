@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from 'type-graphql';
-
+import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 
 
 async function bootstrap() {
@@ -17,6 +17,9 @@ async function bootstrap() {
       req,
       res
     }),
+    plugins: [
+      ApolloServerPluginLandingPageGraphQLPlayground()
+    ]
   })
 
   await apolloServer.start()
