@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { IsUrl } from "class-validator";
-import { Query, Resolver, ObjectType, Field, InputType, Mutation, Arg } from "type-graphql";
+import { Query, Resolver, ObjectType, Field, InputType, Mutation, Arg, ID } from "type-graphql";
 import shortid from "shortid";
 
 
@@ -9,8 +9,8 @@ const prisma = new PrismaClient();
 
 @ObjectType()
 class UrlData {
-  @Field()
-  id: number;
+  @Field(type => ID)
+  readonly id: number;
 
   @Field()
   url: string;
