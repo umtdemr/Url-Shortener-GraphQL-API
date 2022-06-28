@@ -20,5 +20,5 @@ export interface IURLPayload {
   id: number;
   url: string;
   shortId: string;
-  createdAt?: Date
+  createdAt: Date
 }

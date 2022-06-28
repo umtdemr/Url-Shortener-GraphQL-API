@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { Query, Resolver, Mutation, Arg, Subscription, Root } from "type-graphql";
+import { Query, Resolver, Mutation, Arg, Subscription, Root, PubSub } from "type-graphql";
 import shortid from "shortid";
+import { PubSubEngine } from "graphql-subscriptions";
 import { IURLPayload, UrlData } from "../graphql/types/UrlData";
 import { UrlDataInput } from "../graphql/types/UrlDataInput";
 
@@ -25,20 +26,26 @@ export class UrlDataResolver {
 
   @Mutation(() => UrlData)
   async createShortenerUrl(
-    @Arg('data') { url }: UrlDataInput
+    @Arg('data') { url }: UrlDataInput,
+    @PubSub() pubSub: PubSubEngine
   ) {
     const shortId = shortid.generate();
     const urlData = await prisma.urlData.create({
       data: { url, shortId }
     })
+    const payload: IURLPayload = {
+      ...urlData
+    }
+    await pubSub.publish("URLS", payload);
     return urlData
   } 
+
   @Subscription({
     topics: "URLS"
   })
   newUrl(
     @Root() urlPayload: IURLPayload
-  ) {
+  ): UrlData {
     return {...urlPayload};
   }
 }
