@@ -1,7 +1,6 @@
 import 'reflect-metadata'
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express'
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { createServer } from 'http';
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import { WebSocketServer } from 'ws';
@@ -26,10 +25,9 @@ async function bootstrap() {
 
   const server = new ApolloServer({
     schema,
-    context: ({req, res}) => ({req, res }),
+    context: ({req, res}) => ({ req, res }),
     csrfPrevention: true,
     plugins: [
-      ApolloServerPluginLandingPageGraphQLPlayground(),
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
         async serverWillStart() {
@@ -44,11 +42,7 @@ async function bootstrap() {
   });
   await server.start();
   server.applyMiddleware({ 
-    app, 
-    cors: {
-      origin: 'http://localhost:123123',
-      credentials: false
-    }
+    app
   });
 
 
