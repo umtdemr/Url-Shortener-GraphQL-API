@@ -17,3 +17,7 @@ A GraphQL based URL shortener API made with typescript and express
 * Run `npx prisma migrate dev`. It will migrate database and run seed.ts
 * Run `npm run dev` for running project
 
+
+## To do
+
+- [ ] Add subscription support
