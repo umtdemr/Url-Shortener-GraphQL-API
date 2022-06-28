@@ -14,20 +14,20 @@ const PORT = 4000;
 
 async function bootstrap() {
   const schema = await createSchema();
-
   const app = express()
   const httpServer = createServer(app);
 
   const wsServer = new WebSocketServer({
     server: httpServer,
-    path: '/'
+    path: '/graphql'
   })
 
   const serverCleanup = useServer({ schema }, wsServer);
 
-
   const server = new ApolloServer({
     schema,
+    context: ({req, res}) => ({req, res }),
+    csrfPrevention: true,
     plugins: [
       ApolloServerPluginLandingPageGraphQLPlayground(),
       ApolloServerPluginDrainHttpServer({ httpServer }),
@@ -43,7 +43,14 @@ async function bootstrap() {
     ],
   });
   await server.start();
-  server.applyMiddleware({ app });
+  server.applyMiddleware({ 
+    app, 
+    cors: {
+      origin: 'http://localhost:123123',
+      credentials: false
+    }
+  });
+
 
   httpServer.listen(PORT, () => {
     console.log(
