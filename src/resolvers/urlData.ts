@@ -39,6 +39,14 @@ export class UrlDataResolver {
     return urlData
   }
 
+  @Query(() => UrlData)
+  async getUrl(
+    @Arg('shortId') shortId: string
+  ) {
+    const urlData = await prisma.urlData.findUnique({ where: { shortId } });
+    return urlData
+  }
+
   @Mutation(() => UrlData)
   async createShortenerUrl(
     @Arg('data') { url }: UrlDataInput
