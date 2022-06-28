@@ -18,6 +18,9 @@ A GraphQL based URL shortener API made with typescript and express
 * Run `npm run dev` for running project
 
 
-## To do
+## Note about subscriptions
 
-- [ ] Add subscription support
+I've used graphql-ws package for subscriptions. To test it on apollo explorer: in Explorer Settings, click "Edit" for "Connection Settings" and select graphql-ws under "Implementation".
+
+Also, you may want to replace pubsub with redis. Cuz pubsub is just for development purposes.
+

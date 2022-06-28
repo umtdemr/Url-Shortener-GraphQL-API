@@ -1,28 +1,59 @@
 import 'reflect-metadata'
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express'
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
+import { createServer } from 'http';
+import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
 import { createSchema } from './utils/createSchema';
 
 
-async function bootstrap() {
-  const app = express()
+const PORT = 4000;
 
-  const apolloServer = new ApolloServer({
-    schema: await createSchema(),
-    context: ({ req, res }) => ({
-      req,
-      res
-    }),
-    plugins: [
-      ApolloServerPluginLandingPageGraphQLPlayground()
-    ]
+
+async function bootstrap() {
+  const schema = await createSchema();
+  const app = express()
+  const httpServer = createServer(app);
+
+  const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql'
   })
 
-  await apolloServer.start()
-  apolloServer.applyMiddleware({ app });
+  const serverCleanup = useServer({ schema }, wsServer);
 
-  app.listen(4000, () => console.log('graphql is running at 4000'))
+  const server = new ApolloServer({
+    schema,
+    context: ({req, res}) => ({ req, res }),
+    csrfPrevention: true,
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              await serverCleanup.dispose();
+            },
+          };
+        },
+      },
+    ],
+  });
+  await server.start();
+  server.applyMiddleware({ 
+    app
+  });
+
+
+  httpServer.listen(PORT, () => {
+    console.log(
+      `🚀 Query endpoint ready at http://localhost:${PORT}${server.graphqlPath}`
+    );
+    console.log(
+      `🚀 Subscription endpoint ready at ws://localhost:${PORT}${server.graphqlPath}`
+    );
+  });
 }
 
 bootstrap()
