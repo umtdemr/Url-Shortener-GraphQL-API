@@ -14,3 +14,11 @@ export class UrlData {
   @Field({ nullable: true })
   createdAt: Date
 }
+
+
+export interface IURLPayload {
+  id: number;
+  url: string;
+  shortId: string;
+  createdAt?: Date
+}

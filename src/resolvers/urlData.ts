@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import { Query, Resolver, Mutation, Arg } from "type-graphql";
+import { Query, Resolver, Mutation, Arg, Subscription, Root } from "type-graphql";
 import shortid from "shortid";
-import { UrlData } from "../graphql/types/UrlData";
+import { IURLPayload, UrlData } from "../graphql/types/UrlData";
 import { UrlDataInput } from "../graphql/types/UrlDataInput";
 
 
@@ -33,4 +33,13 @@ export class UrlDataResolver {
     })
     return urlData
   } 
+  @Subscription({
+    topics: "URLS"
+  })
+  newUrl(
+    @Root() urlPayload: IURLPayload
+  ) {
+    return {...urlPayload};
+  }
 }
+
