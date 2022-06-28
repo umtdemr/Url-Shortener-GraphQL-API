@@ -2,19 +2,18 @@
 
 A GraphQL based URL shortener API made with typescript and express
 
-## Planned features
+## Features
 
-* GraphQL based
-* Typescript based
-* Prisma based
-* Lock URLs with password
-  > There is no authentication needed.
+* GraphQL
+* Typescript and express
+* Prisma
 
 
-## To do
+## Run it
 
-- [ ] Create algorithmic flow diagram first.
-- [x] Add apollo graphql 
-- [ ] Write an util function for generating unique ids 
-- [ ] Add prisma
+* Clone repository
+* Install dependencies `npm install` or `yarn install`
+* Provide a postgresql database url for prisma with env file (DATABASE_URL).
+* Run `npx prisma migrate dev`. It will migrate database and run seed.ts
+* Run `npm run dev` for running project
 
