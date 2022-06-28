@@ -40,5 +40,8 @@
     "shortid": "^2.2.16",
     "ts-node": "^10.8.1",
     "type-graphql": "^1.1.1"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
